@@ -1,0 +1,30 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=amin
+      - MONGO_INITDB_ROOT_PASSWORD=amin
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - 8081:8081
+    environment:
+      # Basic Auth for Mongo Express UI
+      - ME_CONFIG_BASICAUTH_USERNAME=amin
+      - ME_CONFIG_BASICAUTH_PASSWORD=amin
+      # MongoDB admin credentials
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=amin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=amin
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+volumes:
+  mongo: {}
